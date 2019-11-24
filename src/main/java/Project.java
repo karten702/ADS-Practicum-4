@@ -3,9 +3,11 @@ import utils.XMLParser;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class Project implements Comparable<Project> {
     private static Random randomizer = new Random();
@@ -70,10 +72,23 @@ public class Project implements Comparable<Project> {
         return Calendar.getWorkingDays(this.startDate, this.endDate);
     }
 
-    // TODO make sure Projects can be printed. The format is 'title(code)'
+    @Override
+    public String toString() {
+        return title + "(" + code + ")";
+    }
 
-    // TODO make sure Projects can be added to a HashMap, HashSet
-    //  every project shall have a unique code
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Project)) return false;
+        Project project = (Project) o;
+        return Objects.equals(code, project.code);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code);
+    }
 
     /**
      * add the specified hoursPerDay commitment for the specified employee on the project
@@ -84,8 +99,7 @@ public class Project implements Comparable<Project> {
      * @param hoursPerDay
      */
     public void addCommitment(Employee employee, int hoursPerDay) {
-        // TODO
-
+        committedHoursPerDay.merge(employee, hoursPerDay, Math::addExact);
 
         // also register this project assignment for this employee,
         // in case that had not been done before
@@ -99,8 +113,7 @@ public class Project implements Comparable<Project> {
      * @return
      */
     public int calculateManpowerBudget() {
-        // TODO
-        return 0;
+        return committedHoursPerDay.entrySet().stream().flatMapToInt(employeeIntegerEntry -> IntStream.of(employeeIntegerEntry.getKey().getHourlyWage() * employeeIntegerEntry.getValue() * getNumWorkingDays())).sum();
     }
 
     public String getCode() {
