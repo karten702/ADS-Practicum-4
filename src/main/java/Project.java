@@ -115,7 +115,10 @@ public class Project implements Comparable<Project> {
      * @return
      */
     public int calculateManpowerBudget() {
-        return committedHoursPerDay.entrySet().stream().flatMapToInt(employeeIntegerEntry -> IntStream.of(employeeIntegerEntry.getKey().getHourlyWage() * employeeIntegerEntry.getValue() * getNumWorkingDays())).sum();
+        return committedHoursPerDay.entrySet()
+                .stream()
+                .mapToInt(employeeIntegerEntry -> employeeIntegerEntry.getKey().getHourlyWage() * employeeIntegerEntry.getValue() * getNumWorkingDays())
+                .sum();
     }
 
     public String getCode() {

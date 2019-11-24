@@ -49,11 +49,18 @@ class PPSTest {
                 .addCommitment("P1001", 56743892, 300)
                 .addProject(new Project("P30034", "TestProject-34",
                         LocalDate.of(2019,3,15), LocalDate.of(2019,4,15)), new Employee(888808, 30))
+                .addProject(new Project("P30035", "TestProject-35",
+                        LocalDate.of(2019,3,15), LocalDate.of(2019,4,15)), null)
                 .addCommitment("P30034", 888808, 20)
+                .addCommitment("P30034", 888808, 30)
                 .build();
         assertEquals(1, anotherPPS.getProjects().size());
         assertEquals(2, anotherPPS.getEmployees().size());
-        assertEquals(30*20*22, anotherPPS.calculateTotalManpowerBudget());
+        assertEquals((30*20 + 30*30)*22, anotherPPS.calculateTotalManpowerBudget());
+
+        PPS anotherPPS2 = new PPS.Builder().build();
+        assertEquals(0, anotherPPS2.calculateMostInvolvedEmployees().size());
+
     }
 
     @Test
