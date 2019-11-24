@@ -42,6 +42,21 @@ class PPSTest {
     }
 
     @Test
+    void someTests(){
+        PPS anotherPPS = new PPS.Builder()
+                .addEmployee(null)
+                .addEmployee(this.employee1)
+                .addCommitment("P1001", 56743892, 300)
+                .addProject(new Project("P30034", "TestProject-34",
+                        LocalDate.of(2019,3,15), LocalDate.of(2019,4,15)), new Employee(888808, 30))
+                .addCommitment("P30034", 888808, 20)
+                .build();
+        assertEquals(1, anotherPPS.getProjects().size());
+        assertEquals(2, anotherPPS.getEmployees().size());
+        assertEquals(30*20*22, anotherPPS.calculateTotalManpowerBudget());
+    }
+
+    @Test
     void T21_checkPPSBuilder() {
         assertEquals(3, this.pps.getEmployees().size(), this.pps.getEmployees().toString());
         assertEquals(3, this.pps.getProjects().size(), this.pps.getProjects().toString());

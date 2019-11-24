@@ -166,7 +166,9 @@ public class PPS {
          * @return
          */
         public Builder addEmployee(Employee employee) {
-            pps.employees.add(employee);
+            if(employee != null)
+                pps.employees.add(employee);
+
             return this;
         }
 
@@ -178,14 +180,16 @@ public class PPS {
          * @return
          */
         public Builder addProject(Project project, Employee manager) {
-            pps.projects.add(project);
-            Employee foundEmployee = pps.employees.stream().filter(employee -> employee.equals(manager)).findFirst().orElse(null);//.get().getManagedProjects().add(project);
-            if (foundEmployee == null) {
-                pps.employees.add(manager);
-                manager.getManagedProjects().add(project);
-                return this;
+            if (project != null) {
+                pps.projects.add(project);
+                Employee foundEmployee = pps.employees.stream().filter(employee -> employee.equals(manager)).findFirst().orElse(null);//.get().getManagedProjects().add(project);
+                if (foundEmployee == null) {
+                    pps.employees.add(manager);
+                    manager.getManagedProjects().add(project);
+                    return this;
+                }
+                foundEmployee.getManagedProjects().add(project);
             }
-            foundEmployee.getManagedProjects().add(project);
             return this;
         }
 

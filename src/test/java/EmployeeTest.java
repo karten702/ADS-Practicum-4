@@ -50,4 +50,9 @@ class EmployeeTest {
         assertEquals(0,
                 this.employee2.calculateManagedBudget(),"managed budget");
     }
+
+    @Test
+    void someTests(){
+        assertEquals(0, new Employee(990004).calculateManagedBudget());
+    }
 }

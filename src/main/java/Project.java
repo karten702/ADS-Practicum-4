@@ -99,11 +99,13 @@ public class Project implements Comparable<Project> {
      * @param hoursPerDay
      */
     public void addCommitment(Employee employee, int hoursPerDay) {
-        committedHoursPerDay.merge(employee, hoursPerDay, Math::addExact);
+        if(employee != null) {
+            committedHoursPerDay.merge(employee, hoursPerDay, Math::addExact);
 
-        // also register this project assignment for this employee,
-        // in case that had not been done before
-        employee.getAssignedProjects().add(this);
+            // also register this project assignment for this employee,
+            // in case that had not been done before
+            employee.getAssignedProjects().add(this);
+        }
     }
 
     /**

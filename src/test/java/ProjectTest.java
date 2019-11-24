@@ -52,4 +52,13 @@ class ProjectTest {
         assertEquals(0,
                 this.project3.calculateManpowerBudget(),"manpower budget project3");
     }
+
+    @Test
+    void someTest(){
+        assertEquals(0, this.project1.compareTo(project1a));
+        assertEquals(0, this.project3.calculateManpowerBudget());
+        assertEquals(22, project3.getNumWorkingDays());
+        this.project3.addCommitment(null, 500);
+        assertEquals(0, this.project3.getCommittedHoursPerDay().size());
+    }
 }
